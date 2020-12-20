@@ -18,38 +18,45 @@ type EnvironmentSettings struct {
 
 const incorrectInputPhrase = "Incorrect input phrase.\nEnter an URL like http://<IP address>/world"
 
+type server struct {
+	launcher.Config
+}
+
 func main() {
 
 	var err error
 
 	// New web service
-	config := launcher.NewConfig()
+	var s = server{launcher.NewConfig()}
 
 	var myEnvs EnvironmentSettings
 	err = env_loader.LoadUsingReflect(&myEnvs)
 	if err != nil {
-		config.Logger.SubMsg.Err(err).Msg("Environment variables have not been read")
+		s.Config.Logger.SubMsg.Err(err).Msg("Environment variables have not been read")
 		os.Exit(1)
 	}
-	config.Logger.SubMsg.Info().Msg("Environment variables are set properly!")
+	s.Config.Logger.SubMsg.Info().Msg("Environment variables are set properly!")
 
-	config.SetDomain("kaatinga.ru")
-	config.SetEmail("info@kaatinga.ru")
-	config.SetLaunchMode("dev")
-	config.SetPort(myEnvs.Port)
+	s.Config.SetDomain("kaatinga.ru")
+	s.Config.SetEmail("info@kaatinga.ru")
+	s.Config.SetLaunchMode("dev")
+	s.Config.SetPort(myEnvs.Port)
 
-	err = config.Launch(SetUpHandlers)
+	err = s.Config.Launch(s.SetUpHandlers)
 	if err != nil {
-		config.Logger.SubMsg.Err(err).Msg("The server stopped")
+		s.Config.Logger.SubMsg.Err(err).Msg("The s stopped")
 	}
 }
 
-func SetUpHandlers(r *httprouter.Router, db *sql.DB) {
-	r.GET("/:phrase", HelloServer)
-	r.GET("/", HelloServer)
+func (s server) SetUpHandlers(r *httprouter.Router, _ *sql.DB) {
+	r.GET("/:phrase", s.HelloServer)
+	r.GET("/", s.HelloServer)
 }
 
-func HelloServer(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (s server) HelloServer(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	s.Config.Logger.Title.Info().Str("IP", r.RemoteAddr).Str("Method", r.Method).Str("URL", r.URL.String()).Msg("== A new request is received:")
+
 	bytes := getPhraseBytes(ps)
 	_, err := w.Write(bytes)
 	if err != nil {
