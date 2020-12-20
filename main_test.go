@@ -15,7 +15,7 @@ func Test_getPhraseBytes(t *testing.T) {
 	}{
 		{ "ok", httprouter.Params{httprouter.Param{
 			Key:   "phrase",
-			Value: "world!",
+			Value: "world",
 		}}, []byte("Hello, world!")},
 	}
 		for _, tt := range tests {
