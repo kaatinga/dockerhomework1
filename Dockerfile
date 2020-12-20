@@ -16,7 +16,7 @@ RUN useradd -u 10001 helloworld
 
 # Собираем бинарный файл
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 \
-   go build -o /hello .
+   go build -o /app .
 
 FROM scratch as running
 
@@ -24,7 +24,8 @@ FROM scratch as running
 COPY --from=builder /etc/passwd /etc/passwd
 USER helloworld
 
-COPY --from=builder /hello /hello
+COPY --from=builder /app /app
+#RUN chmod +x /hello
 
 # Указываем порт
 ENV PORT=8080
@@ -33,4 +34,4 @@ ENV PORT=8080
 EXPOSE ${PORT}/tcp
 
 # Запускаем
-CMD ["/hello"]
+CMD ["/app"]
