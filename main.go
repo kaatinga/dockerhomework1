@@ -13,7 +13,7 @@ import (
 
 // Модель данных для параметров окружения
 type EnvironmentSettings struct {
-	Port       string `env:"PORT" validate:"required"`
+	Port string `env:"PORT" validate:"required"`
 }
 
 const incorrectInputPhrase = "Incorrect input phrase.\nEnter an URL like http://<IP address>/world"
@@ -31,7 +31,7 @@ func main() {
 		config.Logger.SubMsg.Err(err).Msg("Environment variables have not been read")
 		os.Exit(1)
 	}
-	config.Logger.SubMsg.Info().Msg("Ok!")
+	config.Logger.SubMsg.Info().Msg("Environment variables are set properly!")
 
 	config.SetDomain("kaatinga.ru")
 	config.SetEmail("info@kaatinga.ru")
