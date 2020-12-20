@@ -26,4 +26,11 @@ USER helloworld
 
 COPY --from=builder /hello /hello
 
+# Указываем порт
+RUN export PORT=8080
+
+# Шарим порт
+EXPOSE 8080
+
+# Запускаем
 CMD ["/hello"]
