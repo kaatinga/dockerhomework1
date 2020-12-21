@@ -5,6 +5,8 @@ RUN cd /m && go mod download
 
 FROM golang:1.15 as builder
 
+COPY --from=modules /go/pkg /go/pkg
+
 RUN mkdir -p /hello
 ADD . /hello
 WORKDIR /hello
