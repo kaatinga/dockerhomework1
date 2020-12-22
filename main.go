@@ -51,6 +51,9 @@ func main() {
 func (s server) SetUpHandlers(r *httprouter.Router, _ *sql.DB) {
 	r.GET("/:phrase", s.HelloServer)
 	r.GET("/", s.HelloServer)
+
+	r.GET("/health", s.Health)
+	r.GET("/ready", s.Ready)
 }
 
 func (s server) HelloServer(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -62,6 +65,20 @@ func (s server) HelloServer(w http.ResponseWriter, r *http.Request, ps httproute
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
+}
+
+func (s server) Health(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+	s.Config.Logger.Title.Info().Str("IP", r.RemoteAddr).Str("Method", r.Method).Str("URL", r.URL.String()).Msg("== A new health check is received:")
+	s.Config.Logger.Title.Info().Msg("Service is healthy!")
+    w.WriteHeader(http.StatusOK)
+}
+
+func (s server) Ready(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+	s.Config.Logger.Title.Info().Str("IP", r.RemoteAddr).Str("Method", r.Method).Str("URL", r.URL.String()).Msg("== A new ready check is received:")
+	s.Config.Logger.Title.Info().Msg("Service is healthy!")
+	w.WriteHeader(http.StatusOK)
 }
 
 func getPhraseBytes(ps httprouter.Params) []byte {
