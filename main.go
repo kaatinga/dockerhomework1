@@ -22,7 +22,7 @@ var (
 	Commit    = "unset"
 )
 
-const incorrectInputPhrase = "Incorrect input phrase.\nEnter an URL like http://<IP address>/world"
+const incorrectInputPhrase = "Enter input phrase.\nEnter an URL like http://<IP address>/hello/world"
 
 type server struct {
 	launcher.Config
@@ -57,7 +57,7 @@ func main() {
 }
 
 func (s server) SetUpHandlers(r *httprouter.Router, _ *sql.DB) {
-	r.GET("/:phrase", s.HelloServer)
+	r.GET("/hello/:phrase", s.HelloServer)
 	r.GET("/", s.HelloServer)
 
 	r.GET("/health", s.Health)
