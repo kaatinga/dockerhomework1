@@ -17,8 +17,7 @@ RUN go test -v ./...
 RUN useradd -u 10001 helloworld
 
 # Собираем бинарный файл
-RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 \
-   go build -o /app .
+RUN make
 
 FROM scratch as running
 
