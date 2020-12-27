@@ -9,8 +9,8 @@ BUILD_TIME := $(shell date -u '+%Y +%m +%d-%H:%M:%S')
 
 build:
 	GOOS=$(GOOS) GOARCH=$(GOARCH) CGO_ENABLED=0 go build \
-	-ldflags="-s -w -X ${PROJECT}/version.Version=${VERSION} \
-	-X ${PROJECT}/version.Commit=${GIT_COMMIT} \
-	-X ${PROJECT}/version.BuildTime=${BUILD_TIME}" \
+	-ldflags="-s -w -X ${PROJECT}/Version=${VERSION} \
+	-X ${PROJECT}/Commit=${GIT_COMMIT} \
+	-X ${PROJECT}/BuildTime=${BUILD_TIME}" \
 	-o /app .
 
