@@ -16,6 +16,12 @@ type EnvironmentSettings struct {
 	Port string `env:"PORT" validate:"required"`
 }
 
+var (
+	Version = "unset"
+	Build   = "unset"
+	Commit  = "unset"
+)
+
 const incorrectInputPhrase = "Incorrect input phrase.\nEnter an URL like http://<IP address>/world"
 
 type server struct {
@@ -41,6 +47,8 @@ func main() {
 	s.Config.SetEmail("info@kaatinga.ru")
 	s.Config.SetLaunchMode("dev")
 	s.Config.SetPort(myEnvs.Port)
+
+	s.Config.Logger.SubMsg.Info().Str("Version", Version).Str("Build", Build).Str("Commit", Commit).Msg("App Data")
 
 	err = s.Config.Launch(s.SetUpHandlers)
 	if err != nil {
@@ -71,7 +79,7 @@ func (s server) Health(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 
 	s.Config.Logger.Title.Info().Str("IP", r.RemoteAddr).Str("Method", r.Method).Str("URL", r.URL.String()).Msg("== A new health check is received:")
 	s.Config.Logger.Title.Info().Msg("Service is healthy!")
-    w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusOK)
 }
 
 func (s server) Ready(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
