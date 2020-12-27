@@ -20,7 +20,7 @@ spec:
       containers:
         - name: kaa-hello
           #IMPORTANT: provide your username here
-          image: docker.io/$(USERNAME)/kaa-hello:latest
+          image: docker.io/kaatinga/homework2:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
