@@ -17,9 +17,9 @@ type EnvironmentSettings struct {
 }
 
 var (
-	Version = "unset"
-	Build   = "unset"
-	Commit  = "unset"
+	Version   = "unset"
+	BuildTime = "unset"
+	Commit    = "unset"
 )
 
 const incorrectInputPhrase = "Incorrect input phrase.\nEnter an URL like http://<IP address>/world"
@@ -48,7 +48,7 @@ func main() {
 	s.Config.SetLaunchMode("dev")
 	s.Config.SetPort(myEnvs.Port)
 
-	s.Config.Logger.SubMsg.Info().Str("Version", Version).Str("Build", Build).Str("Commit", Commit).Msg("App Data")
+	s.Config.Logger.SubMsg.Info().Str("Version", Version).Str("Build", BuildTime).Str("Commit", Commit).Msg("App Data")
 
 	err = s.Config.Launch(s.SetUpHandlers)
 	if err != nil {
