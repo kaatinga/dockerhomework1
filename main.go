@@ -52,7 +52,7 @@ func main() {
 
 	err = s.Config.Launch(s.SetUpHandlers)
 	if err != nil {
-		s.Config.Logger.SubMsg.Err(err).Msg("The s stopped")
+		s.Config.Logger.SubMsg.Err(err).Msg("The service stopped")
 	}
 }
 
