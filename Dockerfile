@@ -3,7 +3,7 @@ FROM golang:1.15 as modules
 ADD go.mod go.sum /m/
 RUN cd /m && go mod download
 
-FROM golang:1.15 as builder
+FROM golang:1.15 as tester
 
 COPY --from=modules /go/pkg /go/pkg
 
@@ -12,6 +12,14 @@ ADD . /hello
 WORKDIR /hello
 
 RUN go test -v ./...
+
+FROM golang:1.15 as builder
+
+COPY --from=modules /go/pkg /go/pkg
+
+RUN mkdir -p /hello
+ADD . /hello
+WORKDIR /hello
 
 # Добавляем непривилегированного пользователя
 RUN useradd -u 10001 helloworld
