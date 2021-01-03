@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kaa-hello
+  name: homework2
 spec:
   replicas: 2
   strategy:
@@ -11,14 +11,14 @@ spec:
       maxSurge: 1
   selector:
     matchLabels:
-      app: kaa-hello
+      app: homework2
   template:
     metadata:
       labels:
-        app: kaa-hello
+        app: homework2
     spec:
       containers:
-        - name: kaa-hello
+        - name: homework2
           #IMPORTANT: provide your username here
           image: docker.io/kaatinga/homework2:latest
           imagePullPolicy: Always
