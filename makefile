@@ -11,7 +11,7 @@ LDFLAGS = -ldflags="-X 'main.Version=${RELEASE}' -X 'main.Commit=${COMMIT}' -X '
 .PHONY : build run test
 
 build:
-	@GOOS=${GOOS} GOARCH=${GOARCH} CGO_ENABLED=0 go build ${LDFLAGS} -o /app .
+	GOOS=${GOOS} GOARCH=${GOARCH} CGO_ENABLED=0 go build ${LDFLAGS} -o /app .
 
 test:
 	go test
