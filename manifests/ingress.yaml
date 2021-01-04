@@ -5,17 +5,17 @@ metadata:
     kubernetes.io/ingress.class: nginx
     ingress.kubernetes.io/rewrite-target: /
   labels:
-    app: homework2-ing
-  name: homework2-ing
+    app: homework3-ing
+  name: homework3-ing
 spec:
   backend:
     serviceName: homework2-srv
     servicePort: 8080
   rules:
-    - host: homework2.host
+    - host: homework3.host
       http:
         paths:
           - path: /
             backend:
-              serviceName: homework2-srv
+              serviceName: homework3-srv
               servicePort: 8080
