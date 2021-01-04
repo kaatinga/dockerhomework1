@@ -35,6 +35,8 @@ func main() {
 	// New web service
 	var s = server{launcher.NewConfig()}
 
+	s.Config.Logger.Title.Info().Msg("Kaatinga Hello World Service is launched")
+
 	var myEnvs EnvironmentSettings
 	err = env_loader.LoadUsingReflect(&myEnvs)
 	if err != nil {
@@ -100,7 +102,7 @@ func getPhraseBytes(ps httprouter.Params) []byte {
 func (s server) Build(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	s.Config.Logger.Title.Info().Str("IP", r.RemoteAddr).Str("Method", r.Method).Str("URL", r.URL.String()).Msg("== A new version check is received:")
-	_, err := w.Write([]byte("Version: " + Version + "\n Build Time: " + BuildTime + "\n Commit: " + Commit))
+	_, err := w.Write([]byte("Version: " + Version + "\nBuild Time: " + BuildTime + "\nCommit: " + Commit))
 	if err != nil {
 		s.Config.Logger.SubMsg.Err(err).Msg("HTTP writer error")
 	}
