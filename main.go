@@ -95,3 +95,13 @@ func getPhraseBytes(ps httprouter.Params) []byte {
 	}
 	return []byte("Hello, " + ps.ByName("phrase"))
 }
+
+func (s server) Build(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+	s.Config.Logger.Title.Info().Str("IP", r.RemoteAddr).Str("Method", r.Method).Str("URL", r.URL.String()).Msg("== A new version check is received:")
+	s.Config.Logger.Title.Info().Msg("Service version is requested!")
+	_, err := w.Write([]byte("Version: " + Version + "\n Build Time: " + BuildTime + "\n Commit: " + Commit))
+	if err != nil {
+		s.Config.Logger.SubMsg.Err(err).Msg("HTTP writer error")
+	}
+}
