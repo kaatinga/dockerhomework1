@@ -62,6 +62,7 @@ func (s server) SetUpHandlers(r *httprouter.Router, _ *sql.DB) {
 
 	r.GET("/health", s.Health)
 	r.GET("/ready", s.Ready)
+	r.GET("/version", s.Build)
 }
 
 func (s server) HelloServer(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -99,7 +100,6 @@ func getPhraseBytes(ps httprouter.Params) []byte {
 func (s server) Build(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	s.Config.Logger.Title.Info().Str("IP", r.RemoteAddr).Str("Method", r.Method).Str("URL", r.URL.String()).Msg("== A new version check is received:")
-	s.Config.Logger.Title.Info().Msg("Service version is requested!")
 	_, err := w.Write([]byte("Version: " + Version + "\n Build Time: " + BuildTime + "\n Commit: " + Commit))
 	if err != nil {
 		s.Config.Logger.SubMsg.Err(err).Msg("HTTP writer error")
