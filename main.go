@@ -11,11 +11,6 @@ import (
 	launcher "github.com/kaatinga/QuickHTTPServerLauncher"
 )
 
-// Модель данных для параметров окружения
-type EnvironmentSettings struct {
-	Port string `env:"PORT" validate:"required"`
-}
-
 var (
 	Version   = "unset"
 	BuildTime = "unset"
