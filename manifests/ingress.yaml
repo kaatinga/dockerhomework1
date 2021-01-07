@@ -10,7 +10,7 @@ metadata:
 spec:
   backend:
     serviceName: homework3-srv
-    servicePort: 8080
+    servicePort: 9090
   rules:
     - host: homework3.host
       http:
@@ -18,4 +18,4 @@ spec:
           - path: /
             backend:
               serviceName: homework3-srv
-              servicePort: 8080
+              servicePort: 9090
