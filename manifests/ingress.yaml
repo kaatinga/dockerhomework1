@@ -9,7 +9,7 @@ metadata:
   name: homework3-ing
 spec:
   backend:
-    serviceName: homework2-srv
+    serviceName: homework3-srv
     servicePort: 8080
   rules:
     - host: homework3.host
