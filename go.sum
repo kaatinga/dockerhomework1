@@ -9,8 +9,8 @@ github.com/go-playground/universal-translator v0.17.0 h1:icxd5fm+REJzpZx7ZfpaD87
 github.com/go-playground/universal-translator v0.17.0/go.mod h1:UkSxE5sNxxRwHyU+Scu5vgOQjsIJAF8j9muTVoKLVtA=
 github.com/julienschmidt/httprouter v1.3.0 h1:U0609e9tgbseu3rBINet9P48AI/D3oJs4dN7jwJOQ1U=
 github.com/julienschmidt/httprouter v1.3.0/go.mod h1:JR6WtHb+2LUe8TCKY3cZOxFyyO8IZAc4RVcycCCAKdM=
-github.com/kaatinga/QuickHTTPServerLauncher v0.0.0-20210107083821-fe9fd720edcd h1:0DDJEUBGdQMnaWxbv8wj+H6GOrtqfsPMpYxXFgLUBio=
-github.com/kaatinga/QuickHTTPServerLauncher v0.0.0-20210107083821-fe9fd720edcd/go.mod h1:OMc67YHYcCyNer6F84DSZ8cMPSOsdVQCRdoVFnPudx0=
+github.com/kaatinga/QuickHTTPServerLauncher v0.0.0-20210107094119-a0f323f48cd2 h1:vFxfTYuKi8dh7pPikmYHPn2th2UEP3mtpPjK6XKQ6lA=
+github.com/kaatinga/QuickHTTPServerLauncher v0.0.0-20210107094119-a0f323f48cd2/go.mod h1:OMc67YHYcCyNer6F84DSZ8cMPSOsdVQCRdoVFnPudx0=
 github.com/kaatinga/assets v1.0.4 h1:GSUfN5o3xBSvI3KktFGj9KJI3uOefwNrfak1V1kBaaQ=
 github.com/kaatinga/assets v1.0.4/go.mod h1:3Z8Sj9Kz6cnS52NRBP1m3ECIPrJiK2RRcklXSnw4bdE=
 github.com/kaatinga/assets v1.0.7 h1:ScQMomXEj0U8QxYdIx8n5EHifp4tS2R44j0HMMJYSm4=
