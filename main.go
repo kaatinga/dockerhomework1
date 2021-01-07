@@ -35,7 +35,7 @@ func main() {
 	// New web service
 	var s = server{launcher.NewConfig()}
 
-	s.Config.Logger.Title.Info().Msg("Kaatinga Hello World Service is launched")
+	s.Config.Logger.Title.Info().Msg("Kaatinga's Hello World Service is launched")
 
 	var myEnvs EnvironmentSettings
 	err = env_loader.LoadUsingReflect(&myEnvs)
