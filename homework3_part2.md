@@ -84,9 +84,9 @@ Session Affinity:         None
 External Traffic Policy:  Cluster
 Events:                   <none>
 ```
-Теперь если я обращаюсь к новой ручке http://homework3.host/version
+Теперь я обращаюсь к новой ручке http://homework3.host/version
 
-Что работает сегодняшняя сборка с версией от 10 числа:
+Вижу что работает сегодняшняя сборка с версией от 10 числа:
 Build Time: `2021 +01 +10-08:06:36`
 
 Патчу сервис обратно:
@@ -98,9 +98,9 @@ service/homework3-srv patched
 
 Вижу `Build Time: 2021 +01 +07-09:53:46` от версии :latest
 
-4. Canary Deployment. Я сделал еще 1 файл: deployment_conary.yaml в котором все теги одинаковые кроме имени деплоймента.
+4. Canary Deployment. Я сделал еще 1 файл: deployment_canary.yaml в котором все теги одинаковые кроме имени деплоймента.
 ```
-m.onishenko@painter manifests % kubectl apply -f deployment-conary.yaml                                              
+m.onishenko@painter manifests % kubectl apply -f deployment-canary.yaml                                              
 deployment.apps/homework3-v1 created
 m.onishenko@painter manifests % kubectl get pods                                                                   
 NAME                           READY   STATUS              RESTARTS   AGE
@@ -111,7 +111,7 @@ homework3-v1-64b6c8dbb-rz49z   0/1     ContainerCreating   0          8s
 homework3v1-5f9d4975c6-nx968   1/1     Running             0          57m
 homework3v1-5f9d4975c6-vp5s4   1/1     Running             0          57m
 ```
-Самое главное селектор тот же самый. Теперь сервис будет выбирать под из двух деплойментах примерно в равной пропорции. Так и есть: http://homework3.host/version теперь при каждом обновлении выдаёт разную версию. Теперь я могу сокращать или увеличивать количество подов в каждом деплойменте чтобы плавно переходить от версии к версии:
+Самое главное селектор тот же самый. Теперь сервис будет выбирать под из двух деплойментов примерно в равной пропорции. Так и есть: http://homework3.host/version теперь при каждом обновлении выдаёт разную версию. Теперь я могу сокращать или увеличивать количество подов в каждом деплойменте чтобы плавно переходить от версии к версии:
 ```
 m.onishenko@painter manifests % kubectl scale deployment/homework3-v1 --replicas=4
 deployment.apps/homework3-v1 scaled
@@ -122,6 +122,6 @@ m.onishenko@painter manifests % kubectl get deployment homework3-v1
 NAME           READY   UP-TO-DATE   AVAILABLE   AGE
 homework3-v1   4/4     4            4           3m56s
 ```
-Теперь при каждом обновлении http://homework3.host/version чаще показывается именно версия от 10 числа
+Теперь при каждом обновлении http://homework3.host/version чаще показывается именно версия от 10 числа.
 
-Всё запущено и работает по адресу http://homework3.host если попдправить /etc/hosts
+Всё запущено и работает по адресу http://homework3.host если подправить /etc/hosts
