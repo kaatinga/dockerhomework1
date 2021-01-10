@@ -5,10 +5,7 @@ metadata:
 spec:
   replicas: 2
   strategy:
-    type: FixedDeployment
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
+    type: Recreate
   selector:
     matchLabels:
       app: homework3
