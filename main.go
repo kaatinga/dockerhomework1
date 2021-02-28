@@ -11,12 +11,13 @@ import (
 	launcher "github.com/kaatinga/QuickHTTPServerLauncher"
 )
 
-// Модель данных для параметров окружения
-type EnvironmentSettings struct {
-	Port string `env:"PORT" validate:"required"`
-}
+var (
+	Version   = "unset"
+	BuildTime = "unset"
+	Commit    = "unset"
+)
 
-const incorrectInputPhrase = "Incorrect input phrase.\nEnter an URL like http://<IP address>/world"
+const incorrectInputPhrase = "Enter input phrase.\nEnter an URL like http://<IP address>/hello/world"
 
 type server struct {
 	launcher.Config
@@ -28,6 +29,8 @@ func main() {
 
 	// New web service
 	var s = server{launcher.NewConfig()}
+
+	s.Config.Logger.Title.Info().Msg("Kaatinga's Hello World Service is launched")
 
 	var myEnvs EnvironmentSettings
 	err = env_loader.LoadUsingReflect(&myEnvs)
@@ -42,15 +45,21 @@ func main() {
 	s.Config.SetLaunchMode("dev")
 	s.Config.SetPort(myEnvs.Port)
 
+	s.Config.Logger.SubMsg.Info().Str("Version", Version).Str("Build", BuildTime).Str("Commit", Commit).Msg("App Data")
+
 	err = s.Config.Launch(s.SetUpHandlers)
 	if err != nil {
-		s.Config.Logger.SubMsg.Err(err).Msg("The s stopped")
+		s.Config.Logger.SubMsg.Err(err).Msg("The service stopped")
 	}
 }
 
 func (s server) SetUpHandlers(r *httprouter.Router, _ *sql.DB) {
-	r.GET("/:phrase", s.HelloServer)
+	r.GET("/hello/:phrase", s.HelloServer)
 	r.GET("/", s.HelloServer)
+
+	r.GET("/health", s.Health)
+	r.GET("/ready", s.Ready)
+	r.GET("/version", s.Build)
 }
 
 func (s server) HelloServer(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -64,9 +73,32 @@ func (s server) HelloServer(w http.ResponseWriter, r *http.Request, ps httproute
 	}
 }
 
+func (s server) Health(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+	s.Config.Logger.Title.Info().Str("IP", r.RemoteAddr).Str("Method", r.Method).Str("URL", r.URL.String()).Msg("== A new health check is received:")
+	s.Config.Logger.Title.Info().Msg("Service is healthy!")
+	w.WriteHeader(http.StatusOK)
+}
+
+func (s server) Ready(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+	s.Config.Logger.Title.Info().Str("IP", r.RemoteAddr).Str("Method", r.Method).Str("URL", r.URL.String()).Msg("== A new ready check is received:")
+	s.Config.Logger.Title.Info().Msg("Service is healthy!")
+	w.WriteHeader(http.StatusOK)
+}
+
 func getPhraseBytes(ps httprouter.Params) []byte {
 	if ps.ByName("phrase") == "" {
 		return []byte(incorrectInputPhrase)
 	}
 	return []byte("Hello, " + ps.ByName("phrase"))
+}
+
+func (s server) Build(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+	s.Config.Logger.Title.Info().Str("IP", r.RemoteAddr).Str("Method", r.Method).Str("URL", r.URL.String()).Msg("== A new version check is received:")
+	_, err := w.Write([]byte("Version: " + Version + "\nBuild Time: " + BuildTime + "\nCommit: " + Commit))
+	if err != nil {
+		s.Config.Logger.SubMsg.Err(err).Msg("HTTP writer error")
+	}
 }
