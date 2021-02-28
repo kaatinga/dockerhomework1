@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    ingress.kubernetes.io/rewrite-target: /
+  labels:
+    app: homework3-ing
+  name: homework3-ing
+spec:
+  backend:
+    serviceName: homework3-srv
+    servicePort: 9090
+  rules:
+    - host: homework3.host
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: homework3-srv
+              servicePort: 9090
