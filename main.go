@@ -11,11 +11,6 @@ import (
 	launcher "github.com/kaatinga/QuickHTTPServerLauncher"
 )
 
-// Модель данных для параметров окружения
-type EnvironmentSettings struct {
-	Port string `env:"PORT" validate:"required"`
-}
-
 var (
 	Version   = "unset"
 	BuildTime = "unset"
@@ -34,6 +29,8 @@ func main() {
 
 	// New web service
 	var s = server{launcher.NewConfig()}
+
+	s.Config.Logger.Title.Info().Msg("Kaatinga's Hello World Service is launched")
 
 	var myEnvs EnvironmentSettings
 	err = env_loader.LoadUsingReflect(&myEnvs)
@@ -62,6 +59,7 @@ func (s server) SetUpHandlers(r *httprouter.Router, _ *sql.DB) {
 
 	r.GET("/health", s.Health)
 	r.GET("/ready", s.Ready)
+	r.GET("/version", s.Build)
 }
 
 func (s server) HelloServer(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -94,4 +92,13 @@ func getPhraseBytes(ps httprouter.Params) []byte {
 		return []byte(incorrectInputPhrase)
 	}
 	return []byte("Hello, " + ps.ByName("phrase"))
+}
+
+func (s server) Build(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+	s.Config.Logger.Title.Info().Str("IP", r.RemoteAddr).Str("Method", r.Method).Str("URL", r.URL.String()).Msg("== A new version check is received:")
+	_, err := w.Write([]byte("Version: " + Version + "\nBuild Time: " + BuildTime + "\nCommit: " + Commit))
+	if err != nil {
+		s.Config.Logger.SubMsg.Err(err).Msg("HTTP writer error")
+	}
 }

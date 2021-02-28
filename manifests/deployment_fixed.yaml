@@ -1,26 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: homework3
+  name: homework3v1
 spec:
   replicas: 2
   strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
+    type: Recreate
   selector:
     matchLabels:
-      app: homework3
+      app: homework3v1
   template:
     metadata:
       labels:
-        app: homework3
+        app: homework3v1
     spec:
       containers:
-        - name: homework3
+        - name: homework3v1
           #IMPORTANT: provide your username here
-          image: docker.io/kaatinga/homework3:latest
+          image: docker.io/kaatinga/homework3:v1.0.0
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
